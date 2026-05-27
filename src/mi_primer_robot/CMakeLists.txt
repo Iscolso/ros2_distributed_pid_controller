@@ -12,6 +12,7 @@ find_package(std_msgs REQUIRED)
 
 add_executable(cerebro src/cerebro.cpp)
 add_executable(motors src/motors.cpp)
+add_executable(sensor src/sensor.cpp)
 target_include_directories(cerebro PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
@@ -22,8 +23,9 @@ ament_target_dependencies(
   std_msgs
 )
 ament_target_dependencies(motors rclcpp std_msgs)
+ament_target_dependencies(sensor rclcpp std_msgs)
 
-install(TARGETS cerebro motors
+install(TARGETS cerebro motors sensor
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
