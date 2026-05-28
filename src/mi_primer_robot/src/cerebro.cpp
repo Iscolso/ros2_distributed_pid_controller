@@ -24,8 +24,22 @@ class PIDController {
 
 class BrainNode : public rclcpp::Node {
   public:
-    BrainNode() : Node("brain_node"), pid_(2.0, 0.5, 0.1), setpoint_(10.0) {
-      RCLCPP_INFO(this->get_logger(), "Starting PID brain..., goal height: %.2f metros", setpoint_);
+    BrainNode() : Node("brain_node"), pid_(0.0, 0.0, 0.0), setpoint_(0.0) {
+      this->declare_parameter("kp", 2.0);
+      this->declare_parameter("ki", 0.5);
+      this->declare_parameter("kd", 0.1);
+      this->declare_parameter("setpoint", 10.0);
+
+      double p_kp = this->get_parameter("kp").as_double();
+      double p_ki = this->get_parameter("ki").as_double();
+      double p_kd = this->get_parameter("kd").as_double();
+      double setpoint_ = this->get_parameter("setpoint").as_double();
+
+      pid_ = PIDController(p_kp, p_ki, p_kd);
+
+
+      RCLCPP_INFO(this->get_logger(), "Starting PID brain with kp: %.2f | ki: %.2f | kd: %.2f ",p_kp,p_ki,p_kd);
+      RCLCPP_INFO(this->get_logger(), "Goal height: %.2f meters", setpoint_);
 
       publisher_ = this->create_publisher<std_msgs::msg::Float64>("/motors_force", 10);
 

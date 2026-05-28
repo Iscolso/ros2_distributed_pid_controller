@@ -23,7 +23,7 @@ class SensorNode : public rclcpp::Node{
             auto message = std_msgs::msg::Float64();
             message.data = initial_height_;
             
-            RCLCPP_INFO(this->get_logger(), "Publishsing current height: %2.f", message.data);
+            RCLCPP_INFO(this->get_logger(), "Publishing current height: %2.f", message.data);
             publisher_->publish(message);
         }
         rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr publisher_;
