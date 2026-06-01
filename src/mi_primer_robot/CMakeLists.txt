@@ -9,10 +9,12 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(OpenCV REQUIRED)
 
 add_executable(cerebro src/cerebro.cpp)
 add_executable(motors src/motors.cpp)
 add_executable(sensor src/sensor.cpp)
+add_executable(vision src/vision.cpp)
 target_include_directories(cerebro PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
@@ -24,8 +26,9 @@ ament_target_dependencies(
 )
 ament_target_dependencies(motors rclcpp std_msgs)
 ament_target_dependencies(sensor rclcpp std_msgs)
+ament_target_dependencies(vision rclcpp std_msgs OpenCV)
 
-install(TARGETS cerebro motors sensor
+install(TARGETS cerebro motors sensor vision
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
